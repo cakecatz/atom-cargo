@@ -1,0 +1,21 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+.log (@log-text-color) {
+  color: @log-text-color;
+  white-space: pre;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.atom-cargo-stderr {
+  .log(@text-color-error)
+}
+
+.atom-cargo-stdout {
+  .log(@text-color)
+}

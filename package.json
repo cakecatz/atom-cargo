@@ -1,0 +1,25 @@
+{
+  "name": "atom-cargo",
+  "main": "./lib/atom-cargo",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "repository": "https://github.com/atom/atom-cargo",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {
+    "ansi-to-html": "^0.3.0",
+    "atom-message-panel": "^1.2.3",
+    "atom-space-pen-views": "^2.0.5",
+    "fs-plus": "^2.8.1",
+    "toml": "^2.2.3"
+  },
+  "consumedServices": {
+    "tool-bar": {
+      "versions": {
+        "^0.1.0": "consumeToolBar"
+      }
+    }
+  }
+}
