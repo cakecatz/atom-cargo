@@ -43,7 +43,9 @@ module.exports = AtomCargo =
   stop: (app) ->
     ps = require 'child_process'
     
-    if app.projectInfo.hasOwnProperty('bin')
+    console.log app
+    
+    if app.projectInfo? && app.projectInfo.hasOwnProperty('bin')
       processName = app.projectInfo.bin[0].name
     else
       processName = app.projectInfo.package.name
@@ -74,9 +76,14 @@ module.exports = AtomCargo =
     
     if projects.length is 1
       options['cwd'] = projects[0]
-      app.findCargoToml projects[0]
-      app.currentProcess = new BufferedProcess {command, args, stdout, stderr, exit, options}
-      app.stopButton.setEnabled true
+      tomlPath = app.findCargoToml projects[0]
+      if tomlPath isnt ''
+        app.projectInfo = app.getProjectInfo tomlPath
+        app.currentProcess = new BufferedProcess {command, args, stdout, stderr, exit, options}
+        app.stopButton.setEnabled true
+      else
+        app.runButton.setEnabled true
+        
     else
       selector = new ProjectSelector projects, ->
         #on cancelled
