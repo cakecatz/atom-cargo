@@ -8,6 +8,7 @@ module.exports = AtomCargo =
   subscriptions: null
   projectName: ''
   projectInfo: null
+  projectType: 'bin'
   
   config:
     cargoPath:
@@ -16,6 +17,9 @@ module.exports = AtomCargo =
 
   activate: (state) ->
     @subscriptions = new CompositeDisposable
+    
+    @subscriptions.add atom.commands.add 'atom-text-editor', 'atom-cargo:run', =>
+      @run(this)
 
     @cargoPath = atom.config.get('atom-cargo.cargoPath')
 
@@ -42,8 +46,6 @@ module.exports = AtomCargo =
 
   stop: (app) ->
     ps = require 'child_process'
-    
-    console.log app
     
     if app.projectInfo? && app.projectInfo.hasOwnProperty('bin')
       processName = app.projectInfo.bin[0].name
@@ -79,6 +81,9 @@ module.exports = AtomCargo =
       tomlPath = app.findCargoToml projects[0]
       if tomlPath isnt ''
         app.projectInfo = app.getProjectInfo tomlPath
+        unless app.projectInfo.bin
+          app.projectType = 'lib'
+          args = ['build'] 
         app.currentProcess = new BufferedProcess {command, args, stdout, stderr, exit, options}
         app.stopButton.setEnabled true
       else
